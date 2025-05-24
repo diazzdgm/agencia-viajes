@@ -115,6 +115,8 @@
         position: relative;
         overflow: hidden;
         box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        position: relative;
+        z-index: 1;
     }
 
     .btn-reserve::before {
@@ -705,6 +707,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // Remove loading state on error or success
+        const removeLoadingState = () => {
+            document.querySelector('.booking-panel').classList.remove('loading-state');
+            submitBtn.disabled = false;
+            btnText.classList.remove('d-none');
+            loading.classList.add('d-none');
+        };
+
+        // Display success message
+        @if(session('success'))
+            showCustomAlert('{{ session('success') }}', 'success');
+            removeLoadingState();
+        @endif
+
+        @if(session('error'))
+            showCustomAlert('{{ session('error') }}', 'danger');
+            removeLoadingState();
+        @endif
+
+        @if(session('error'))
+            showCustomAlert('{{ session('error') }}', 'danger');
+        @endif
     }
 
     // Related activities booking forms
